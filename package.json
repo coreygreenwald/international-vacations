@@ -1,0 +1,43 @@
+{
+  "name": "international-vacations",
+  "version": "1.0.0",
+  "description": "A repository for finding the locations of the world you and your loved ones can go to without a visa or where a visa is issued upon entering.",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "start-dev": "webpack -w & nodemon main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coreygreen1108/international-vacations.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coreygreen1108/international-vacations/issues"
+  },
+  "homepage": "https://github.com/coreygreen1108/international-vacations#readme",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "pg": "^7.3.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "sequelize": "^4.15.0",
+    "volleyball": "^1.4.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1"
+  }
+}
