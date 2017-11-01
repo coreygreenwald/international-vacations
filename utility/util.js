@@ -1,8 +1,15 @@
-
- function formatCountryObject(response){
+function findOverlap(country1, country2){
+    var countryOne = country1['noVisa']
+    var countryTwo = country2['noVisa']
+    var overlap = []
+    for (i=0; i<countryOne.length; i++){
+        countryTwo.includes(countryOne[i]) ? overlap.push(countryOne[i]) : null
+    }
+}
+function formatCountryText(response){
     var officialCountry = {
-        'no-visa-required': [],
-        'visa-required': [],
+        'noVisa': [],
+        'visa': [],
         'depends': []
     }
     var countries = response.split('<tr>')
@@ -13,17 +20,15 @@
             if (firstLine.match(/title="(.*)"/g)) {
                 var countryName = firstLine.match(/title="(.*)"/g)[0].split("\"")[1];
                 if (country.includes('table-yes')) {
-                    officialCountry['no-visa-required'].push(countryName)
+                    officialCountry['noVisa'].push(countryName)
                 } else if (country.includes('table-no')) {
-                    officialCountry['visa-required'].push(countryName)
+                    officialCountry['visa'].push(countryName)
                 } else if (!countryName.includes('Visa') && (!countryName.includes('visa'))) {
                     officialCountry['depends'].push(countryName)
                 }
             }
         }
     })
-
     return officialCountry
 }
-
-module.exports = {formatCountryObject}
+module.exports = { formatCountryText, findOverlap }
