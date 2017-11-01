@@ -4,7 +4,11 @@ const Sequelize = require('sequelize');
 let Nationality = db.define('nationality', {
     name: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        },
+        unique: true
     },
 
     noVisa: {
