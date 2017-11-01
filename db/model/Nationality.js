@@ -4,22 +4,22 @@ const Sequelize = require('sequelize');
 let Nationality = db.define('nationality', {
     name: {
         type: Sequelize.STRING,
-        // allowNull: false,
+        allowNull: false
     },
 
     noVisa: {
         type: Sequelize.ARRAY(Sequelize.TEXT),
-        // allowNull: false
+        allowNull: false
     },
 
     visa: {
         type: Sequelize.ARRAY(Sequelize.TEXT),
-        // allowNull: false
+        allowNull: false
     },
 
     depends: {
         type: Sequelize.ARRAY(Sequelize.TEXT),
-        // allowNull: false
+        allowNull: false
     }
 })
 
