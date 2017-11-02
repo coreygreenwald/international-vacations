@@ -7,3 +7,4 @@ db.sync()
         console.log('server running on PORT 5000!');
     })
 })
+ 
