@@ -1,11 +1,15 @@
+const request = require('request-promise');
+const Nationality = require ('../db/model/Nationality.js')
+
 function findOverlap(country1, country2){
-    var countryOne = country1['noVisa']
-    var countryTwo = country2['noVisa']
-    var overlap = []
+    var countryOne = country1.noVisa;
+    var countryTwo = country2.noVisa;
+    var overlap = [];
     for (i=0; i<countryOne.length; i++){
        if (countryTwo.includes(countryOne[i])) {overlap.push(countryOne[i])}
     }
 }
+
 function formatCountryText(response){
     var officialCountry = {
         'noVisa': [],
@@ -31,4 +35,16 @@ function formatCountryText(response){
     })
     return officialCountry
 }
-module.exports = { formatCountryText, findOverlap }
+
+async function nationalityCreator(nation){
+    try {
+        let response = await request(`https://en.wikipedia.org/w/index.php?action=render&contentmodel=json&title=Visa_requirements_for_${nation}_citizens`)
+        let countryData = formatCountryText(response);
+        let nationality = await Nationality.create({ name: nation, visa: countryData.visa, noVisa: countryData.noVisa, depends: countryData.depends});
+        return nationality;
+    } catch(err){
+        console.error(`an error has occurred for the nation ${nation}`);
+    }
+}
+
+module.exports = { nationalityCreator }
