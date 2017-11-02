@@ -3,7 +3,7 @@ function findOverlap(country1, country2){
     var countryTwo = country2['noVisa']
     var overlap = []
     for (i=0; i<countryOne.length; i++){
-        countryTwo.includes(countryOne[i]) ? overlap.push(countryOne[i]) : null
+       if (countryTwo.includes(countryOne[i])) {overlap.push(countryOne[i])}
     }
 }
 function formatCountryText(response){
@@ -20,11 +20,11 @@ function formatCountryText(response){
             if (firstLine.match(/title="(.*)"/g)) {
                 var countryName = firstLine.match(/title="(.*)"/g)[0].split("\"")[1];
                 if (country.includes('table-yes')) {
-                    officialCountry['noVisa'].push(countryName)
+                    officialCountry.noVisa.push(countryName)
                 } else if (country.includes('table-no')) {
-                    officialCountry['visa'].push(countryName)
+                    officialCountry.visa.push(countryName)
                 } else if (!countryName.includes('Visa') && (!countryName.includes('visa'))) {
-                    officialCountry['depends'].push(countryName)
+                    officialCountry.depends.push(countryName)
                 }
             }
         }
