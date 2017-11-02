@@ -7,7 +7,23 @@ let Nationality = db.define('nationality', {
         allowNull: false,
         validate: {
             notEmpty: true
-        }
+        },
+        unique: true
+    },
+
+    noVisa: {
+        type: Sequelize.ARRAY(Sequelize.TEXT),
+        allowNull: false
+    },
+
+    visa: {
+        type: Sequelize.ARRAY(Sequelize.TEXT),
+        allowNull: false
+    },
+
+    depends: {
+        type: Sequelize.ARRAY(Sequelize.TEXT),
+        allowNull: false
     }
 })
 
