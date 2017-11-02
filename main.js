@@ -3,7 +3,7 @@ const db = require('./db').db;
 
 db.sync()
 .then(() => {
-    app.listen(8080, () => {
-        console.log('server running on PORT 8080!');
+    app.listen(5000, () => {
+        console.log('server running on PORT 5000!');
     })
 })
