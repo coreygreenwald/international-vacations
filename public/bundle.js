@@ -26297,6 +26297,14 @@ var _axios = __webpack_require__(85);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _CountrySelect = __webpack_require__(104);
+
+var _CountrySelect2 = _interopRequireDefault(_CountrySelect);
+
+var _intersection = __webpack_require__(105);
+
+var _intersection2 = _interopRequireDefault(_intersection);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26315,24 +26323,64 @@ var Main = function (_Component) {
 
         _this.state = {
             countries: [],
-            selectedCountries: []
+            selectedCountries: [],
+            numCountries: 2
         };
+        _this.increaseNumCountries = _this.increaseNumCountries.bind(_this);
         return _this;
     }
 
     _createClass(Main, [{
         key: 'componentDidMount',
-        value: function componentDidMount() {}
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            _axios2.default.get('/api/nationalities').then(function (_ref) {
+                var countries = _ref.data;
+
+                _this2.setState({ countries: countries });
+                console.log(_this2.state.countries);
+            });
+        }
+    }, {
+        key: 'increaseNumCountries',
+        value: function increaseNumCountries(e) {
+            e.preventDefault();
+            this.setState({
+                numCountries: this.state.numCountries + 1
+            });
+        }
+    }, {
+        key: 'checkIntersection',
+        value: function checkIntersection(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
     }, {
         key: 'render',
         value: function render() {
+            var arr = [];
+            for (var i = 0; i < this.state.numCountries; i++) {
+                arr.push(_react2.default.createElement(_CountrySelect2.default, { key: i, selectorId: i, countries: this.state.countries }));
+            }
             return _react2.default.createElement(
                 'div',
-                null,
+                { className: 'main' },
                 _react2.default.createElement(
-                    'h1',
-                    null,
-                    ' MAIN '
+                    'form',
+                    { className: 'main-form' },
+                    arr,
+                    _react2.default.createElement(
+                        'button',
+                        { className: 'main-form-add', onClick: this.increaseNumCountries },
+                        'ADD NATIONALITY'
+                    ),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement(
+                        'button',
+                        { type: 'submit', onSubmit: this.checkIntersection },
+                        'CHECK COUNTRIES'
+                    )
                 )
             );
         }
@@ -27216,6 +27264,71 @@ module.exports = function spread(callback) {
   };
 };
 
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = CountrySelect;
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function CountrySelect(props) {
+    var countries = props.countries,
+        selectorId = props.selectorId;
+
+    return _react2.default.createElement(
+        'select',
+        { name: 'countries' },
+        countries.map(function (country, index) {
+            return _react2.default.createElement(
+                'option',
+                { key: selectorId + ' ' + index, value: country.name },
+                country.name
+            );
+        })
+    );
+}
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = intersection;
+function intersection() {
+    var interArr = [];
+
+    for (var _len = arguments.length, nationalities = Array(_len), _key = 0; _key < _len; _key++) {
+        nationalities[_key] = arguments[_key];
+    }
+
+    for (var i = 0; i < nationalities.length; i++) {
+        interArr.push(nationalities[i].noVisa);
+    }
+    var result = interArr.shift().reduce(function (prev, curr) {
+        if (!prev.includes(curr) && interArr.every(function (nationality) {
+            return nationality.includes(curr);
+        })) prev.push(curr);
+        return prev;
+    }, []);
+    return result;
+}
 
 /***/ })
 /******/ ]);
