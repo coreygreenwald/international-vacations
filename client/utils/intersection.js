@@ -1,4 +1,4 @@
-export default function intersection(...nationalities){
+export default function intersection(nationalities){
     let interArr = [];
     for(let i = 0; i < nationalities.length; i++){
         interArr.push(nationalities[i].noVisa);
