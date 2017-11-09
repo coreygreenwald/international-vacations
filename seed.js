@@ -54,7 +54,7 @@ async function nationalitySeeder(){
         'Czech',
         'Danish',
         'Djibouti',
-        'Dominican',
+        'Dominica',
         'Dutch',
         'East Timorese',
         'Ecuadorean',

@@ -26297,6 +26297,14 @@ var _axios = __webpack_require__(85);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _CountrySelect = __webpack_require__(104);
+
+var _CountrySelect2 = _interopRequireDefault(_CountrySelect);
+
+var _intersection = __webpack_require__(105);
+
+var _intersection2 = _interopRequireDefault(_intersection);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26314,25 +26322,92 @@ var Main = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 
         _this.state = {
-            countries: [],
-            selectedCountries: []
+            countries: {},
+            selectedCountries: [],
+            intersection: []
         };
+        _this.selectCountry = _this.selectCountry.bind(_this);
+        _this.checkIntersection = _this.checkIntersection.bind(_this);
         return _this;
     }
 
     _createClass(Main, [{
         key: 'componentDidMount',
-        value: function componentDidMount() {}
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            _axios2.default.get('/api/nationalities').then(function (_ref) {
+                var countries = _ref.data;
+
+                _this2.setState({ countries: countries });
+            });
+        }
+    }, {
+        key: 'selectCountry',
+        value: function selectCountry(country) {
+            var selectedCountries = this.state.selectedCountries.slice();
+            selectedCountries.push(country);
+            console.log(selectedCountries);
+            this.setState({
+                selectedCountries: selectedCountries
+            });
+        }
+    }, {
+        key: 'checkIntersection',
+        value: function checkIntersection(e) {
+            e.preventDefault();
+            var boundState = this.state;
+
+            var intersect = (0, _intersection2.default)(boundState.selectedCountries.map(function (country) {
+                return boundState.countries[country];
+            }));
+            console.log('intersection array', intersect);
+            this.setState({
+                intersection: intersect
+            });
+        }
     }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
                 'div',
-                null,
+                { className: 'main' },
                 _react2.default.createElement(
-                    'h1',
+                    'div',
+                    { className: 'main-form' },
+                    _react2.default.createElement(_CountrySelect2.default, { countries: Object.keys(this.state.countries), selectCountry: this.selectCountry }),
+                    _react2.default.createElement(
+                        'ul',
+                        null,
+                        this.state.selectedCountries.map(function (country) {
+                            return _react2.default.createElement(
+                                'li',
+                                { key: country },
+                                country
+                            );
+                        })
+                    ),
+                    _react2.default.createElement('br', null),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.checkIntersection },
+                        'CHECK COUNTRIES'
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
                     null,
-                    ' MAIN '
+                    _react2.default.createElement(
+                        'ul',
+                        null,
+                        this.state.intersection.map(function (country) {
+                            return _react2.default.createElement(
+                                'li',
+                                { key: country },
+                                country
+                            );
+                        })
+                    )
                 )
             );
         }
@@ -27216,6 +27291,117 @@ module.exports = function spread(callback) {
   };
 };
 
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CountrySelect = function (_Component) {
+    _inherits(CountrySelect, _Component);
+
+    function CountrySelect(props) {
+        _classCallCheck(this, CountrySelect);
+
+        var _this = _possibleConstructorReturn(this, (CountrySelect.__proto__ || Object.getPrototypeOf(CountrySelect)).call(this, props));
+
+        _this.state = {
+            selectedCountry: 'Afghan'
+        };
+        _this.setCountry = _this.setCountry.bind(_this);
+        return _this;
+    }
+
+    _createClass(CountrySelect, [{
+        key: 'setCountry',
+        value: function setCountry(e) {
+            this.setState({
+                selectedCountry: e.target.value
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var _props = this.props,
+                countries = _props.countries,
+                selectCountry = _props.selectCountry;
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'select',
+                    { name: 'countries', onChange: this.setCountry },
+                    countries.map(function (country, index) {
+                        return _react2.default.createElement(
+                            'option',
+                            { key: index, value: country },
+                            country
+                        );
+                    })
+                ),
+                _react2.default.createElement(
+                    'button',
+                    { onClick: function onClick() {
+                            return selectCountry(_this2.state.selectedCountry);
+                        } },
+                    'Add Nationality'
+                )
+            );
+        }
+    }]);
+
+    return CountrySelect;
+}(_react.Component);
+
+exports.default = CountrySelect;
+
+/***/ }),
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = intersection;
+function intersection(nationalities) {
+    var interArr = [];
+    for (var i = 0; i < nationalities.length; i++) {
+        interArr.push(nationalities[i].noVisa);
+    }
+    var result = interArr.shift().reduce(function (prev, curr) {
+        if (!prev.includes(curr) && interArr.every(function (nationality) {
+            return nationality.includes(curr);
+        })) prev.push(curr);
+        return prev;
+    }, []);
+    return result;
+}
 
 /***/ })
 /******/ ]);
