@@ -28,7 +28,7 @@ export default class CountrySelect extends Component {
                     })
                 }
                 </select>
-                <button onClick={() => selectCountry(this.state.selectedCountry)}>Add Nationality</button>
+                <button className="btn" onClick={() => selectCountry(this.state.selectedCountry)}>Add Nationality</button>
             </div>
         )
     }
