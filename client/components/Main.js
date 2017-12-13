@@ -54,7 +54,6 @@ export default class Main extends Component {
                         })
                     }
                     </ul>
-                    <br></br>
                     <button className="btn" onClick={this.checkIntersection}>Where Can We Go?</button>
                 </div>
                 <div className="main-countries">
