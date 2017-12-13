@@ -17,7 +17,10 @@ body {
 }
 
 .main {
-    padding: 30px 200px ;
+    @media screen and (min-width: 800px) {
+        padding: 30px 200px ;
+    }
+
     &-title {
         font-size: 64px;
     }
