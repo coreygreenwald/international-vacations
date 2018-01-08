@@ -2,6 +2,7 @@ let nationalityCreator = require('./utils/util').nationalityCreator;
 let db = require('./db/_db');
 
 async function nationalitySeeder(){
+    console.log('begin seed');
     await db.sync({force: true});
     let nationalities = [
         'Afghan',
@@ -205,6 +206,7 @@ async function nationalitySeeder(){
             console.log('FAILURE ', nationalities[i] + ' could not be seeded.');
         }
     }
+    console.log('seeding complete');
 }
     
-nationalitySeeder();
+module.exports = nationalitySeeder;
