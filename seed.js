@@ -209,4 +209,4 @@ async function nationalitySeeder(){
     console.log('seeding complete');
 }
     
-module.exports = nationalitySeeder;
+nationalitySeeder()
